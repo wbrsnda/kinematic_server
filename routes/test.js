@@ -25,7 +25,7 @@ router.post('/face', async function (req, res) {
         const imageBase64 = fs.readFileSync(imagePath, { encoding: 'base64' });
         const data = { image: 'data:image/png;base64,' + imageBase64 };
 
-        const response = await axios.post('http://10.1.20.214:9000/extract', data, {
+        const response = await axios.post(process.env.REC_URL, data, {
             headers: {
                 'Content-Type': 'application/json'
             }
