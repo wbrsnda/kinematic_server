@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const cors = require('cors');
 
 var app = express();
 const mongoose = require('mongoose')
@@ -11,10 +11,10 @@ const mongoose = require('mongoose')
 const bodyParser = require("body-parser");
 require('dotenv').config(); // 加载 .env 文件中的环境变量
 
-// 使用 body-parser 中间件
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
+// 使用 body-parser 中间件  设置 body-parser 限制大小
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+app.use(cors());
 
 const Users = require('./models/users/users')
 const Games = require('./models/games/games')
@@ -29,13 +29,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/test', require('./routes/test'))
+app.use('/test', require('./routes/test'));
 
 app.use('/common', require('./routes/common'))
 app.use("/auth", require("./routes/auth/auth"));
 app.use('/users', require('./routes/users'));
 app.use("/api", require("./routes/api/api"));
 app.use("/api", require("./routes/api/recognition"));
+app.use('/api', require('./routes/api/record'));
+app.use('/api', require('./routes/api/board'));
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

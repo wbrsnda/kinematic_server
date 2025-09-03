@@ -1,7 +1,7 @@
 // utils/faceUtils.js
 
 //相似度阈值
-const SIMILARITY_THRESHOLD = 0.75;
+const SIMILARITY_THRESHOLD = 0.35;
 
 
 function compareFaceFeatures(inputFeature, storedFeature) {
